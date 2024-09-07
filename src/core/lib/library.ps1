@@ -129,7 +129,8 @@ function anyi_extract_tar_xz ([string]$src, [string]$dst) {
   if (Get-Command 7z.exe -ErrorAction SilentlyContinue) {
     # Windows + 7z
     $temp_tar = [System.IO.Path]::GetTempFileName()
-    7z.exe x -txz "${src}" -so > "${temp_tar}" && 7z.exe x -ttar "${temp_tar}" -o"${dst}"
+    7z.exe x -txz "${src}" -so > "${temp_tar}"
+    7z.exe x -ttar "${temp_tar}" -o"${dst}"
     Remove-Item "${temp_tar}"
   }
   elseif ((Get-Command tar.exe -ErrorAction SilentlyContinue) -and (Get-Command xz.exe -ErrorAction SilentlyContinue)) {
