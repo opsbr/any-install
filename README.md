@@ -112,7 +112,7 @@ Of course, the installer scripts are provided by Any Install :)
 For Linux and macOS:
 
 ```sh
-curl https://github.com/opsbr/any-install/releases/latest/download/install.sh | sh
+curl -fsSL https://github.com/opsbr/any-install/releases/latest/download/install.sh | sh
 
 export PATH="${HOME}/.any-install:${PATH}"
 
