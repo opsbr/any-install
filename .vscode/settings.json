@@ -1,0 +1,15 @@
+{
+  "terminal.integrated.profiles.windows": {
+    "PowerShell": {
+      "icon": "terminal-powershell",
+      "source": "PowerShell",
+      "args": ["-noexit", "-file", "./script/profile.ps1"]
+    },
+    "Command Prompt": null,
+    "Git Bash": null
+  },
+  "terminal.integrated.defaultProfile.windows": "PowerShell",
+  "powershell.powerShellAdditionalExePaths": {
+    "any-install": "/workspaces/any-install/.any-install/.pwsh/pwsh"
+  }
+}

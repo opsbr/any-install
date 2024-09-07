@@ -1,0 +1,852 @@
+// Bun Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`sh  info snapshot "Hello world!" 1`] = `"anyi_info "Hello world!""`;
+
+exports[`sh  warn snapshot "Hello world!" 1`] = `"anyi_warn "Hello world!""`;
+
+exports[`sh  setVar snapshot  1`] = `
+"name="new value"
+anyi_info "name=$<name}""
+`;
+
+exports[`sh  setVarFromEnv snapshot  1`] = `
+"name="$<MY_ENV:-"default value"}"
+anyi_info "name=$<name}""
+`;
+
+exports[`sh  unsetVar snapshot  1`] = `"unset "name""`;
+
+exports[`sh  setInstallDir snapshot "MY_ENV" "default value" 1`] = `
+"install_dir="$<MY_ENV:-"default value"}"
+anyi_info "install_dir=$<install_dir}"
+
+anyi_verify_install_dir "$<install_dir}""
+`;
+
+exports[`sh  setOs snapshot  1`] = `
+"os="$(anyi_get_os)"
+anyi_info "os=$<os}""
+`;
+
+exports[`sh  setArch snapshot  1`] = `
+"arch="$(anyi_get_arch)"
+anyi_info "arch=$<arch}""
+`;
+
+exports[`sh  download snapshot "http://localhost/foo"  1`] = `
+"url="http://localhost/foo"
+anyi_info "url=$<url}"
+
+asset="$<temp_dir}/foo"
+anyi_info "asset=$<asset}"
+
+anyi_download "$<url}" "$<asset}""
+`;
+
+exports[`sh  download snapshot "http://localhost/foo.zip"  1`] = `
+"url="http://localhost/foo.zip"
+anyi_info "url=$<url}"
+
+asset="$<temp_dir}/foo.zip"
+anyi_info "asset=$<asset}"
+
+anyi_download "$<url}" "$<asset}"
+
+extract_dir="$<temp_dir}/extract"
+anyi_info "extract_dir=$<extract_dir}"
+
+anyi_mkdir_p "$<extract_dir}"
+
+anyi_extract_zip "$<asset}" "$<extract_dir}"
+
+unset "asset""
+`;
+
+exports[`sh  download snapshot "http://localhost/foo.tar.gz"  1`] = `
+"url="http://localhost/foo.tar.gz"
+anyi_info "url=$<url}"
+
+asset="$<temp_dir}/foo.tar.gz"
+anyi_info "asset=$<asset}"
+
+anyi_download "$<url}" "$<asset}"
+
+extract_dir="$<temp_dir}/extract"
+anyi_info "extract_dir=$<extract_dir}"
+
+anyi_mkdir_p "$<extract_dir}"
+
+anyi_extract_tar_gz "$<asset}" "$<extract_dir}"
+
+unset "asset""
+`;
+
+exports[`sh  download snapshot "http://localhost/foo.tar.xz"  1`] = `
+"url="http://localhost/foo.tar.xz"
+anyi_info "url=$<url}"
+
+asset="$<temp_dir}/foo.tar.xz"
+anyi_info "asset=$<asset}"
+
+anyi_download "$<url}" "$<asset}"
+
+extract_dir="$<temp_dir}/extract"
+anyi_info "extract_dir=$<extract_dir}"
+
+anyi_mkdir_p "$<extract_dir}"
+
+anyi_extract_tar_xz "$<asset}" "$<extract_dir}"
+
+unset "asset""
+`;
+
+exports[`sh  download snapshot "http://localhost/foo" {"download":"download","extract":"extract"} 1`] = `
+"url="http://localhost/foo"
+anyi_info "url=$<url}"
+
+asset="$<temp_dir}/foo"
+anyi_info "asset=$<asset}"
+
+download
+
+extract_dir="$<temp_dir}/extract"
+anyi_info "extract_dir=$<extract_dir}"
+
+anyi_mkdir_p "$<extract_dir}"
+
+extract
+
+unset "asset""
+`;
+
+exports[`sh  download snapshot "http://localhost/owner/repo/releases/download/tag/foo"  1`] = `
+"url="http://localhost/owner/repo/releases/download/tag/foo"
+anyi_info "url=$<url}"
+
+asset="$<temp_dir}/foo"
+anyi_info "asset=$<asset}"
+
+if anyi_check_command "gh auth status"; then
+  gh release download "tag" --repo "http://localhost/owner/repo" --pattern "foo" --output "$<asset}"
+else
+  anyi_download "$<url}" "$<asset}"
+fi"
+`;
+
+exports[`sh  download snapshot "http://localhost/owner/repo/releases/latest/download/foo"  1`] = `
+"url="http://localhost/owner/repo/releases/latest/download/foo"
+anyi_info "url=$<url}"
+
+asset="$<temp_dir}/foo"
+anyi_info "asset=$<asset}"
+
+if anyi_check_command "gh auth status"; then
+  gh release download --repo "http://localhost/owner/repo" --pattern "foo" --output "$<asset}"
+else
+  anyi_download "$<url}" "$<asset}"
+fi"
+`;
+
+exports[`sh  installExecutable snapshot "my command" 1`] = `
+"anyi_mkdir_p "$<install_dir}"
+
+anyi_install_executable "$<asset}" "$<install_dir}/my command""
+`;
+
+exports[`sh  installDirectory snapshot default 1`] = `
+"source_dir="$<extract_dir}"
+anyi_info "source_dir=$<source_dir}"
+
+anyi_install_directory "$<source_dir}" "$<install_dir}""
+`;
+
+exports[`sh  installDirectory snapshot stripComponents 1`] = `
+"source_dir="$(anyi_find_stripped_path "$<extract_dir}" "1")"
+anyi_info "source_dir=$<source_dir}"
+
+anyi_install_directory "$<source_dir}" "$<install_dir}""
+`;
+
+exports[`sh  switchCases snapshot {} 1`] = `""`;
+
+exports[`sh  switchCases snapshot {"a":"aaa"} 1`] = `
+"anyi_info "Switching by target"
+case "target" in
+  "a")
+    aaa
+    ;;
+esac"
+`;
+
+exports[`sh  switchCases snapshot {"a":"aaa","b":["bb","bb"]} 1`] = `
+"anyi_info "Switching by target"
+case "target" in
+  "a")
+    aaa
+    ;;
+  "b")
+    bb
+    
+    bb
+    ;;
+esac"
+`;
+
+exports[`sh  switchCases snapshot {"default":"default","a":"aaa"} 1`] = `
+"anyi_info "Switching by target"
+case "target" in
+  "a")
+    aaa
+    ;;
+  *)
+    default
+    ;;
+esac"
+`;
+
+exports[`sh  build snapshot [] 1`] = `
+"#!/usr/bin/env sh
+# Built with Any Install v0.0.0-semantically-released
+# shellcheck shell=dash
+# shellcheck disable=SC2039
+
+set -eu
+
+main() {
+
+  true
+
+}
+
+# The following code is derived from Any Install.
+# Copyright 2024 OpsBR Software Technology Inc. and contributors
+# SPDX-License-Identifier: Apache-2.0
+
+library
+
+temp_dir="$(anyi_mktemp_d)"
+anyi_info "temp_dir=$<temp_dir}"
+trap 'anyi_rm_fr "$<temp_dir}"' EXIT
+
+main"
+`;
+
+exports[`sh  build snapshot ["a"] 1`] = `
+"#!/usr/bin/env sh
+# Built with Any Install v0.0.0-semantically-released
+# shellcheck shell=dash
+# shellcheck disable=SC2039
+
+set -eu
+
+main() {
+
+  a
+
+}
+
+# The following code is derived from Any Install.
+# Copyright 2024 OpsBR Software Technology Inc. and contributors
+# SPDX-License-Identifier: Apache-2.0
+
+library
+
+temp_dir="$(anyi_mktemp_d)"
+anyi_info "temp_dir=$<temp_dir}"
+trap 'anyi_rm_fr "$<temp_dir}"' EXIT
+
+main"
+`;
+
+exports[`sh  build snapshot ["a","b"] 1`] = `
+"#!/usr/bin/env sh
+# Built with Any Install v0.0.0-semantically-released
+# shellcheck shell=dash
+# shellcheck disable=SC2039
+
+set -eu
+
+main() {
+
+  a
+  
+  b
+
+}
+
+# The following code is derived from Any Install.
+# Copyright 2024 OpsBR Software Technology Inc. and contributors
+# SPDX-License-Identifier: Apache-2.0
+
+library
+
+temp_dir="$(anyi_mktemp_d)"
+anyi_info "temp_dir=$<temp_dir}"
+trap 'anyi_rm_fr "$<temp_dir}"' EXIT
+
+main"
+`;
+
+exports[`sh  build snapshot ["a",["b"]] 1`] = `
+"#!/usr/bin/env sh
+# Built with Any Install v0.0.0-semantically-released
+# shellcheck shell=dash
+# shellcheck disable=SC2039
+
+set -eu
+
+main() {
+
+  a
+  
+  b
+
+}
+
+# The following code is derived from Any Install.
+# Copyright 2024 OpsBR Software Technology Inc. and contributors
+# SPDX-License-Identifier: Apache-2.0
+
+library
+
+temp_dir="$(anyi_mktemp_d)"
+anyi_info "temp_dir=$<temp_dir}"
+trap 'anyi_rm_fr "$<temp_dir}"' EXIT
+
+main"
+`;
+
+exports[`sh  build snapshot ["a",["b","c"]] 1`] = `
+"#!/usr/bin/env sh
+# Built with Any Install v0.0.0-semantically-released
+# shellcheck shell=dash
+# shellcheck disable=SC2039
+
+set -eu
+
+main() {
+
+  a
+  
+  b
+  
+  c
+
+}
+
+# The following code is derived from Any Install.
+# Copyright 2024 OpsBR Software Technology Inc. and contributors
+# SPDX-License-Identifier: Apache-2.0
+
+library
+
+temp_dir="$(anyi_mktemp_d)"
+anyi_info "temp_dir=$<temp_dir}"
+trap 'anyi_rm_fr "$<temp_dir}"' EXIT
+
+main"
+`;
+
+exports[`sh  build snapshot ["\na\nb"] 1`] = `
+"#!/usr/bin/env sh
+# Built with Any Install v0.0.0-semantically-released
+# shellcheck shell=dash
+# shellcheck disable=SC2039
+
+set -eu
+
+main() {
+
+  a
+  b
+
+}
+
+# The following code is derived from Any Install.
+# Copyright 2024 OpsBR Software Technology Inc. and contributors
+# SPDX-License-Identifier: Apache-2.0
+
+library
+
+temp_dir="$(anyi_mktemp_d)"
+anyi_info "temp_dir=$<temp_dir}"
+trap 'anyi_rm_fr "$<temp_dir}"' EXIT
+
+main"
+`;
+
+exports[`ps1 info snapshot "Hello world!" 1`] = `"anyi_info "Hello world!""`;
+
+exports[`ps1 warn snapshot "Hello world!" 1`] = `"anyi_warn "Hello world!""`;
+
+exports[`ps1 setVar snapshot  1`] = `
+"$name="new value"
+anyi_info "name=$<name}""
+`;
+
+exports[`ps1 setVarFromEnv snapshot  1`] = `
+"if (Test-Path env:MY_ENV) { $name = (Get-Item env:MY_ENV).Value } else { $name = "default value" }
+anyi_info "name=$<name}""
+`;
+
+exports[`ps1 unsetVar snapshot  1`] = `"Remove-Variable -Name "name""`;
+
+exports[`ps1 setInstallDir snapshot "MY_ENV" "default value" 1`] = `
+"if (Test-Path env:MY_ENV) { $install_dir = (Get-Item env:MY_ENV).Value } else { $install_dir = "default value" }
+anyi_info "install_dir=$<install_dir}"
+
+anyi_verify_install_dir "$<install_dir}""
+`;
+
+exports[`ps1 setOs snapshot  1`] = `
+"$os="$(anyi_get_os)"
+anyi_info "os=$<os}""
+`;
+
+exports[`ps1 setArch snapshot  1`] = `
+"$arch="$(anyi_get_arch)"
+anyi_info "arch=$<arch}""
+`;
+
+exports[`ps1 download snapshot "http://localhost/foo"  1`] = `
+"$url="http://localhost/foo"
+anyi_info "url=$<url}"
+
+$asset="$<temp_dir}/foo"
+anyi_info "asset=$<asset}"
+
+anyi_download "$<url}" "$<asset}""
+`;
+
+exports[`ps1 download snapshot "http://localhost/foo.zip"  1`] = `
+"$url="http://localhost/foo.zip"
+anyi_info "url=$<url}"
+
+$asset="$<temp_dir}/foo.zip"
+anyi_info "asset=$<asset}"
+
+anyi_download "$<url}" "$<asset}"
+
+$extract_dir="$<temp_dir}/extract"
+anyi_info "extract_dir=$<extract_dir}"
+
+anyi_mkdir_p "$<extract_dir}"
+
+anyi_extract_zip "$<asset}" "$<extract_dir}"
+
+Remove-Variable -Name "asset""
+`;
+
+exports[`ps1 download snapshot "http://localhost/foo.tar.gz"  1`] = `
+"$url="http://localhost/foo.tar.gz"
+anyi_info "url=$<url}"
+
+$asset="$<temp_dir}/foo.tar.gz"
+anyi_info "asset=$<asset}"
+
+anyi_download "$<url}" "$<asset}"
+
+$extract_dir="$<temp_dir}/extract"
+anyi_info "extract_dir=$<extract_dir}"
+
+anyi_mkdir_p "$<extract_dir}"
+
+anyi_extract_tar_gz "$<asset}" "$<extract_dir}"
+
+Remove-Variable -Name "asset""
+`;
+
+exports[`ps1 download snapshot "http://localhost/foo.tar.xz"  1`] = `
+"$url="http://localhost/foo.tar.xz"
+anyi_info "url=$<url}"
+
+$asset="$<temp_dir}/foo.tar.xz"
+anyi_info "asset=$<asset}"
+
+anyi_download "$<url}" "$<asset}"
+
+$extract_dir="$<temp_dir}/extract"
+anyi_info "extract_dir=$<extract_dir}"
+
+anyi_mkdir_p "$<extract_dir}"
+
+anyi_extract_tar_xz "$<asset}" "$<extract_dir}"
+
+Remove-Variable -Name "asset""
+`;
+
+exports[`ps1 download snapshot "http://localhost/foo" {"download":"download","extract":"extract"} 1`] = `
+"$url="http://localhost/foo"
+anyi_info "url=$<url}"
+
+$asset="$<temp_dir}/foo"
+anyi_info "asset=$<asset}"
+
+download
+
+$extract_dir="$<temp_dir}/extract"
+anyi_info "extract_dir=$<extract_dir}"
+
+anyi_mkdir_p "$<extract_dir}"
+
+extract
+
+Remove-Variable -Name "asset""
+`;
+
+exports[`ps1 download snapshot "http://localhost/owner/repo/releases/download/tag/foo"  1`] = `
+"$url="http://localhost/owner/repo/releases/download/tag/foo"
+anyi_info "url=$<url}"
+
+$asset="$<temp_dir}/foo"
+anyi_info "asset=$<asset}"
+
+if (anyi_check_command "gh auth status") {
+  gh release download "tag" --repo "http://localhost/owner/repo" --pattern "foo" --output "$<asset}"
+} else {
+  anyi_download "$<url}" "$<asset}"
+}"
+`;
+
+exports[`ps1 download snapshot "http://localhost/owner/repo/releases/latest/download/foo"  1`] = `
+"$url="http://localhost/owner/repo/releases/latest/download/foo"
+anyi_info "url=$<url}"
+
+$asset="$<temp_dir}/foo"
+anyi_info "asset=$<asset}"
+
+if (anyi_check_command "gh auth status") {
+  gh release download --repo "http://localhost/owner/repo" --pattern "foo" --output "$<asset}"
+} else {
+  anyi_download "$<url}" "$<asset}"
+}"
+`;
+
+exports[`ps1 installExecutable snapshot "my command" 1`] = `
+"anyi_mkdir_p "$<install_dir}"
+
+anyi_install_executable "$<asset}" "$<install_dir}/my command""
+`;
+
+exports[`ps1 installDirectory snapshot default 1`] = `
+"$source_dir="$<extract_dir}"
+anyi_info "source_dir=$<source_dir}"
+
+anyi_install_directory "$<source_dir}" "$<install_dir}""
+`;
+
+exports[`ps1 installDirectory snapshot stripComponents 1`] = `
+"$source_dir="$(anyi_find_stripped_path "$<extract_dir}" "1")"
+anyi_info "source_dir=$<source_dir}"
+
+anyi_install_directory "$<source_dir}" "$<install_dir}""
+`;
+
+exports[`ps1 switchCases snapshot {} 1`] = `""`;
+
+exports[`ps1 switchCases snapshot {"a":"aaa"} 1`] = `
+"anyi_info "Switching by target"
+switch ("target") {
+  "a" {
+    aaa
+    break
+  }
+}"
+`;
+
+exports[`ps1 switchCases snapshot {"a":"aaa","b":["bb","bb"]} 1`] = `
+"anyi_info "Switching by target"
+switch ("target") {
+  "a" {
+    aaa
+    break
+  }
+  "b" {
+    bb
+    
+    bb
+    break
+  }
+}"
+`;
+
+exports[`ps1 switchCases snapshot {"default":"default","a":"aaa"} 1`] = `
+"anyi_info "Switching by target"
+switch ("target") {
+  "a" {
+    aaa
+    break
+  }
+  default {
+    default
+    break
+  }
+}"
+`;
+
+exports[`ps1 build snapshot [] 1`] = `
+"#!/usr/bin/env pwsh
+# Built with Any Install v0.0.0-semantically-released
+
+Set-strictmode -version latest
+
+# Wrapper function to avoid leaking of any definitions to the current shell.
+function _any_install_main {
+
+  function main {
+
+    
+
+  }
+
+  # The following code is derived from Any Install.
+  # Copyright 2024 OpsBR Software Technology Inc. and contributors
+  # SPDX-License-Identifier: Apache-2.0
+  
+  library
+
+  try {
+    $temp_dir="$(anyi_mktemp_d)"
+    anyi_info "temp_dir=$<temp_dir}"
+
+    main
+  } catch {
+    $err = $_
+  } finally {
+    anyi_rm_fr "$<temp_dir}"
+
+    # Remove itself once it's done
+    Remove-Item Function:_any_install_main
+  }
+
+  if (Get-Variable err -ErrorAction Ignore) {
+    throw $err
+  }
+
+} # End of _any_install_main
+_any_install_main"
+`;
+
+exports[`ps1 build snapshot ["a"] 1`] = `
+"#!/usr/bin/env pwsh
+# Built with Any Install v0.0.0-semantically-released
+
+Set-strictmode -version latest
+
+# Wrapper function to avoid leaking of any definitions to the current shell.
+function _any_install_main {
+
+  function main {
+
+    a
+
+  }
+
+  # The following code is derived from Any Install.
+  # Copyright 2024 OpsBR Software Technology Inc. and contributors
+  # SPDX-License-Identifier: Apache-2.0
+  
+  library
+
+  try {
+    $temp_dir="$(anyi_mktemp_d)"
+    anyi_info "temp_dir=$<temp_dir}"
+
+    main
+  } catch {
+    $err = $_
+  } finally {
+    anyi_rm_fr "$<temp_dir}"
+
+    # Remove itself once it's done
+    Remove-Item Function:_any_install_main
+  }
+
+  if (Get-Variable err -ErrorAction Ignore) {
+    throw $err
+  }
+
+} # End of _any_install_main
+_any_install_main"
+`;
+
+exports[`ps1 build snapshot ["a","b"] 1`] = `
+"#!/usr/bin/env pwsh
+# Built with Any Install v0.0.0-semantically-released
+
+Set-strictmode -version latest
+
+# Wrapper function to avoid leaking of any definitions to the current shell.
+function _any_install_main {
+
+  function main {
+
+    a
+    
+    b
+
+  }
+
+  # The following code is derived from Any Install.
+  # Copyright 2024 OpsBR Software Technology Inc. and contributors
+  # SPDX-License-Identifier: Apache-2.0
+  
+  library
+
+  try {
+    $temp_dir="$(anyi_mktemp_d)"
+    anyi_info "temp_dir=$<temp_dir}"
+
+    main
+  } catch {
+    $err = $_
+  } finally {
+    anyi_rm_fr "$<temp_dir}"
+
+    # Remove itself once it's done
+    Remove-Item Function:_any_install_main
+  }
+
+  if (Get-Variable err -ErrorAction Ignore) {
+    throw $err
+  }
+
+} # End of _any_install_main
+_any_install_main"
+`;
+
+exports[`ps1 build snapshot ["a",["b"]] 1`] = `
+"#!/usr/bin/env pwsh
+# Built with Any Install v0.0.0-semantically-released
+
+Set-strictmode -version latest
+
+# Wrapper function to avoid leaking of any definitions to the current shell.
+function _any_install_main {
+
+  function main {
+
+    a
+    
+    b
+
+  }
+
+  # The following code is derived from Any Install.
+  # Copyright 2024 OpsBR Software Technology Inc. and contributors
+  # SPDX-License-Identifier: Apache-2.0
+  
+  library
+
+  try {
+    $temp_dir="$(anyi_mktemp_d)"
+    anyi_info "temp_dir=$<temp_dir}"
+
+    main
+  } catch {
+    $err = $_
+  } finally {
+    anyi_rm_fr "$<temp_dir}"
+
+    # Remove itself once it's done
+    Remove-Item Function:_any_install_main
+  }
+
+  if (Get-Variable err -ErrorAction Ignore) {
+    throw $err
+  }
+
+} # End of _any_install_main
+_any_install_main"
+`;
+
+exports[`ps1 build snapshot ["a",["b","c"]] 1`] = `
+"#!/usr/bin/env pwsh
+# Built with Any Install v0.0.0-semantically-released
+
+Set-strictmode -version latest
+
+# Wrapper function to avoid leaking of any definitions to the current shell.
+function _any_install_main {
+
+  function main {
+
+    a
+    
+    b
+    
+    c
+
+  }
+
+  # The following code is derived from Any Install.
+  # Copyright 2024 OpsBR Software Technology Inc. and contributors
+  # SPDX-License-Identifier: Apache-2.0
+  
+  library
+
+  try {
+    $temp_dir="$(anyi_mktemp_d)"
+    anyi_info "temp_dir=$<temp_dir}"
+
+    main
+  } catch {
+    $err = $_
+  } finally {
+    anyi_rm_fr "$<temp_dir}"
+
+    # Remove itself once it's done
+    Remove-Item Function:_any_install_main
+  }
+
+  if (Get-Variable err -ErrorAction Ignore) {
+    throw $err
+  }
+
+} # End of _any_install_main
+_any_install_main"
+`;
+
+exports[`ps1 build snapshot ["\na\nb"] 1`] = `
+"#!/usr/bin/env pwsh
+# Built with Any Install v0.0.0-semantically-released
+
+Set-strictmode -version latest
+
+# Wrapper function to avoid leaking of any definitions to the current shell.
+function _any_install_main {
+
+  function main {
+
+    a
+    b
+
+  }
+
+  # The following code is derived from Any Install.
+  # Copyright 2024 OpsBR Software Technology Inc. and contributors
+  # SPDX-License-Identifier: Apache-2.0
+  
+  library
+
+  try {
+    $temp_dir="$(anyi_mktemp_d)"
+    anyi_info "temp_dir=$<temp_dir}"
+
+    main
+  } catch {
+    $err = $_
+  } finally {
+    anyi_rm_fr "$<temp_dir}"
+
+    # Remove itself once it's done
+    Remove-Item Function:_any_install_main
+  }
+
+  if (Get-Variable err -ErrorAction Ignore) {
+    throw $err
+  }
+
+} # End of _any_install_main
+_any_install_main"
+`;

@@ -1,0 +1,227 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "definitions": {
+    "Step": {
+      "anyOf": [
+        {
+          "type": "object",
+          "properties": {
+            "statement": { "type": "string", "const": "info" },
+            "with": {
+              "type": "object",
+              "properties": { "message": { "type": "string" } },
+              "required": ["message"],
+              "additionalProperties": false
+            }
+          },
+          "required": ["statement", "with"],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "statement": { "type": "string", "const": "warn" },
+            "with": {
+              "type": "object",
+              "properties": { "message": { "type": "string" } },
+              "required": ["message"],
+              "additionalProperties": false
+            }
+          },
+          "required": ["statement", "with"],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "statement": { "type": "string", "const": "panic" },
+            "with": {
+              "type": "object",
+              "properties": { "message": { "type": "string" } },
+              "required": ["message"],
+              "additionalProperties": false
+            }
+          },
+          "required": ["statement", "with"],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "statement": { "type": "string", "const": "setInstallDir" },
+            "with": {
+              "type": "object",
+              "properties": {
+                "env": { "type": "string" },
+                "defaultValue": { "type": "string" }
+              },
+              "required": ["env", "defaultValue"],
+              "additionalProperties": false
+            }
+          },
+          "required": ["statement", "with"],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": { "statement": { "type": "string", "const": "setOs" } },
+          "required": ["statement"],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "statement": { "type": "string", "const": "setArch" }
+          },
+          "required": ["statement"],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "statement": { "type": "string", "const": "download" },
+            "with": {
+              "type": "object",
+              "properties": {
+                "url": { "type": "string" },
+                "custom": {
+                  "type": "object",
+                  "properties": {
+                    "download": { "type": "string" },
+                    "extract": { "type": "string" }
+                  },
+                  "additionalProperties": false
+                }
+              },
+              "required": ["url"],
+              "additionalProperties": false
+            }
+          },
+          "required": ["statement", "with"],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "statement": { "type": "string", "const": "installExecutable" },
+            "with": {
+              "type": "object",
+              "properties": { "target": { "type": "string" } },
+              "required": ["target"],
+              "additionalProperties": false
+            }
+          },
+          "required": ["statement", "with"],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "statement": { "type": "string", "const": "installDirectory" },
+            "with": {
+              "type": "object",
+              "properties": {
+                "options": {
+                  "type": "object",
+                  "properties": { "stripComponents": { "type": "number" } },
+                  "additionalProperties": false
+                }
+              },
+              "required": ["options"],
+              "additionalProperties": false
+            }
+          },
+          "required": ["statement"],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "statement": { "type": "string", "const": "setVar" },
+            "with": {
+              "type": "object",
+              "properties": {
+                "variable": { "type": "string" },
+                "value": { "type": "string" }
+              },
+              "required": ["variable", "value"],
+              "additionalProperties": false
+            }
+          },
+          "required": ["statement", "with"],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "statement": { "type": "string", "const": "unsetVar" },
+            "with": {
+              "type": "object",
+              "properties": { "variable": { "type": "string" } },
+              "required": ["variable"],
+              "additionalProperties": false
+            }
+          },
+          "required": ["statement", "with"],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "statement": { "type": "string", "const": "switchCases" },
+            "with": {
+              "type": "object",
+              "properties": {
+                "target": { "type": "string" },
+                "cases": {
+                  "type": "object",
+                  "additionalProperties": {
+                    "type": "array",
+                    "items": { "$ref": "#/definitions/Step" }
+                  }
+                }
+              },
+              "required": ["target", "cases"],
+              "additionalProperties": false
+            }
+          },
+          "required": ["statement", "with"],
+          "additionalProperties": false
+        },
+        { "type": "string" }
+      ]
+    },
+    "Manifest": {
+      "type": "object",
+      "properties": {
+        "$schema": { "type": "string" },
+        "sh": {
+          "type": "object",
+          "properties": {
+            "file": { "type": "string" },
+            "install": {
+              "type": "array",
+              "items": { "$ref": "#/definitions/Step" }
+            }
+          },
+          "required": ["file", "install"],
+          "additionalProperties": false
+        },
+        "ps1": {
+          "type": "object",
+          "properties": {
+            "file": { "type": "string" },
+            "install": {
+              "type": "array",
+              "items": { "$ref": "#/definitions/Step" }
+            }
+          },
+          "required": ["file", "install"],
+          "additionalProperties": false
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+  "$ref": "#/definitions/Manifest"
+}

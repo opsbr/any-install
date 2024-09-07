@@ -1,0 +1,38 @@
+name: update
+
+on:
+  workflow_dispatch: {}
+  schedule:
+    - cron: "0 0 * * 6" # Every Saturday
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/create-github-app-token@v1
+        id: app-token
+        with:
+          app-id: ${{ vars.OPSBR_BOT_APP_ID }}
+          private-key: ${{ secrets.OPSBR_BOT_PRIVATE_KEY }}
+      - uses: actions/checkout@v4
+      - name: Setup
+        run: ./script/setup.bash bun
+      - name: Update
+        run: |
+          bun install --frozen-lockfile
+          bun update | tee /tmp/body
+          bun install  # To update bun.lockb
+      - uses: peter-evans/create-pull-request@v7
+        id: pull-request
+        with:
+          token: ${{ steps.app-token.outputs.token }}
+          branch: build-deps/update-dependencies
+          commit-message: "build(deps): update dependencies"
+          title: "build(deps): update dependencies"
+          body-path: /tmp/body
+          signoff: true
+          sign-commits: true
+      - if: ${{ steps.pull-request.outputs.pull-request-number != '' }}
+        run: gh pr merge --squash --auto ${{ steps.pull-request.outputs.pull-request-number }}
+        env:
+          GH_TOKEN: ${{ steps.app-token.outputs.token }}

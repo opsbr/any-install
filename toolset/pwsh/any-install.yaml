@@ -1,0 +1,25 @@
+# yaml-language-server: $schema=../../src/cli/schema.json
+
+sh:
+  file: install.sh
+  install:
+    - statement: setInstallDir
+      with:
+        env: PWSH_INSTALL
+        defaultValue: ${ANY_INSTALL_ROOT}/.pwsh
+    - statement: setOs
+    - statement: setArch
+    - statement: switchCases
+      with:
+        target: ${os}-${arch}
+        cases:
+          linux-x64:
+            - statement: download
+              with:
+                url: https://github.com/PowerShell/PowerShell/releases/download/v7.4.5/powershell-7.4.5-linux-x64.tar.gz
+          macos-arm64:
+            - statement: download
+              with:
+                url: https://github.com/PowerShell/PowerShell/releases/download/v7.4.5/powershell-7.4.5-osx-arm64.tar.gz
+    - statement: installDirectory
+    - chmod +x "${install_dir}/pwsh"

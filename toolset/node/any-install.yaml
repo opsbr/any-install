@@ -1,0 +1,31 @@
+# yaml-language-server: $schema=../../src/cli/schema.json
+
+sh:
+  file: install.sh
+  install:
+    - statement: setInstallDir
+      with:
+        env: NODE_INSTALL
+        defaultValue: ${ANY_INSTALL_ROOT}/.node
+    - statement: download
+      with:
+        url: https://nodejs.org/dist/v20.16.0/node-v20.16.0-linux-x64.tar.xz
+    - statement: installDirectory
+      with:
+        options:
+          stripComponents: 1
+
+ps1:
+  file: install.ps1
+  install:
+    - statement: setInstallDir
+      with:
+        env: NODE_INSTALL
+        defaultValue: ${Env:ANY_INSTALL_ROOT}/.node
+    - statement: download
+      with:
+        url: https://nodejs.org/dist/v20.16.0/node-v20.16.0-win-x64.zip
+    - statement: installDirectory
+      with:
+        options:
+          stripComponents: 1

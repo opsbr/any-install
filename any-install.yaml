@@ -1,0 +1,57 @@
+# yaml-language-server: $schema=./.any-install/schema.json
+
+sh:
+  file: ./dist/release/install.sh
+  install:
+    - |
+      # Copyright 2024 OpsBR Software Technology Inc. and contributors
+      # SPDX-License-Identifier: Apache-2.0
+    - statement: setInstallDir
+      with:
+        env: ANY_INSTALL
+        defaultValue: ${HOME}/.any-install
+    - statement: setOs
+    - statement: setArch
+    - statement: switchCases
+      with:
+        target: ${os}-${arch}
+        cases:
+          linux-x64:
+            - statement: download
+              with:
+                url: https://github.com/opsbr/any-install/releases/download/{{ tag }}/any-install_linux-x64.tar.gz
+          linux-arm64:
+            - statement: download
+              with:
+                url: https://github.com/opsbr/any-install/releases/download/{{ tag }}/any-install_linux-arm64.tar.gz
+          macos-x64:
+            - statement: download
+              with:
+                url: https://github.com/opsbr/any-install/releases/download/{{ tag }}/any-install_macos-x64.tar.gz
+          macos-arm64:
+            - statement: download
+              with:
+                url: https://github.com/opsbr/any-install/releases/download/{{ tag }}/any-install_macos-arm64.tar.gz
+    - statement: installDirectory
+
+ps1:
+  file: ./dist/release/install.ps1
+  install:
+    - |
+      # Copyright 2024 OpsBR Software Technology Inc. and contributors
+      # SPDX-License-Identifier: Apache-2.0
+    - statement: setInstallDir
+      with:
+        env: ANY_INSTALL
+        defaultValue: ${HOME}/.any-install
+    - statement: setOs
+    - statement: setArch
+    - statement: switchCases
+      with:
+        target: ${os}-${arch}
+        cases:
+          windows-x64:
+            - statement: download
+              with:
+                url: https://github.com/opsbr/any-install/releases/download/{{ tag }}/any-install_windows-x64.zip
+    - statement: installDirectory

@@ -1,0 +1,119 @@
+name: release
+
+on:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: read # for checkout
+
+jobs:
+  semantic-release:
+    permissions:
+      contents: write # to be able to publish a GitHub release
+      issues: write # to be able to comment on released issues
+      pull-requests: write # to be able to comment on released pull requests
+      id-token: write # to enable use of OIDC for npm provenance
+    runs-on: ubuntu-latest
+    outputs:
+      tag: ${{ steps.release.outputs.tag }}
+    steps:
+      - uses: actions/create-github-app-token@v1
+        id: app-token
+        with:
+          app-id: ${{ vars.OPSBR_BOT_APP_ID }}
+          private-key: ${{ secrets.OPSBR_BOT_PRIVATE_KEY }}
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Setup
+        run: ./script/setup.bash bun node
+      - name: Install
+        run: |
+          bun install --frozen-lockfile
+      - name: Release
+        id: release
+        run: |
+          npx semantic-release
+          echo "tag=$(git tag --points-at HEAD)" >> "${GITHUB_OUTPUT}"
+        env:
+          GITHUB_TOKEN: ${{ steps.app-token.outputs.token }}
+  verify-sh:
+    needs: semantic-release
+    if: startsWith(needs.semantic-release.outputs.tag, 'v')
+    outputs:
+      tag: ${{ needs.semantic-release.outputs.tag }}
+    strategy:
+      matrix:
+        os:
+          - ubuntu-latest
+          - ubuntu-latest-arm
+          - macos-latest
+          - macos-13
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/create-github-app-token@v1
+        id: app-token
+        with:
+          app-id: ${{ vars.OPSBR_BOT_APP_ID }}
+          private-key: ${{ secrets.OPSBR_BOT_PRIVATE_KEY }}
+      - name: Install
+        run: |
+          gh release download ${{ needs.semantic-release.outputs.tag }} --repo opsbr/any-install --pattern install.sh -O - | sh
+        env:
+          GITHUB_TOKEN: ${{ steps.app-token.outputs.token }}
+      - name: Version
+        run: ${HOME}/.any-install/any-install -v
+      - name: LICENSE
+        run: cat ${HOME}/.any-install/LICENSE
+      - name: NOTICE
+        run: cat ${HOME}/.any-install/NOTICE
+      - name: THIRD_PARTY_LICENSES
+        run: cat ${HOME}/.any-install/THIRD_PARTY_LICENSES
+  verify-ps1:
+    needs: semantic-release
+    if: startsWith(needs.semantic-release.outputs.tag, 'v')
+    strategy:
+      matrix:
+        os:
+          - windows-latest
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/create-github-app-token@v1
+        id: app-token
+        with:
+          app-id: ${{ vars.OPSBR_BOT_APP_ID }}
+          private-key: ${{ secrets.OPSBR_BOT_PRIVATE_KEY }}
+      - name: Install
+        run: |
+          gh release download ${{ needs.semantic-release.outputs.tag }} --repo opsbr/any-install --pattern install.ps1 -O - | Out-String | iex
+        env:
+          GITHUB_TOKEN: ${{ steps.app-token.outputs.token }}
+      - name: Version
+        run: |
+          & ${HOME}/.any-install/any-install.exe -v
+      - name: LICENSE
+        run: cat ${HOME}/.any-install/LICENSE
+      - name: NOTICE
+        run: cat ${HOME}/.any-install/NOTICE
+      - name: THIRD_PARTY_LICENSES
+        run: cat ${HOME}/.any-install/THIRD_PARTY_LICENSES
+  publish:
+    needs:
+      - verify-sh
+      - verify-ps1
+    if: startsWith(needs.verify-sh.outputs.tag, 'v')
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/create-github-app-token@v1
+        id: app-token
+        with:
+          app-id: ${{ vars.OPSBR_BOT_APP_ID }}
+          private-key: ${{ secrets.OPSBR_BOT_PRIVATE_KEY }}
+      - name: Publish
+        run: |
+          gh release edit ${{ needs.verify-sh.outputs.tag }} --repo opsbr/any-install --draft=false --latest
+        env:
+          GITHUB_TOKEN: ${{ steps.app-token.outputs.token }}

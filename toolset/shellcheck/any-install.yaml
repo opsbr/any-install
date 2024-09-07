@@ -1,0 +1,28 @@
+# yaml-language-server: $schema=../../src/cli/schema.json
+
+sh:
+  file: install.sh
+  install:
+    - statement: setInstallDir
+      with:
+        env: SHELLCHECK_INSTALL
+        defaultValue: ${ANY_INSTALL_ROOT}/.shellcheck
+    - statement: download
+      with:
+        url: https://github.com/koalaman/shellcheck/releases/download/stable/shellcheck-stable.linux.x86_64.tar.xz
+    - statement: installDirectory
+      with:
+        options:
+          stripComponents: 1
+
+ps1:
+  file: install.ps1
+  install:
+    - statement: setInstallDir
+      with:
+        env: SHELLCHECK_INSTALL
+        defaultValue: ${Env:ANY_INSTALL_ROOT}/.shellcheck
+    - statement: download
+      with:
+        url: https://github.com/koalaman/shellcheck/releases/download/stable/shellcheck-stable.zip
+    - statement: installDirectory

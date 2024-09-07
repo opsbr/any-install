@@ -1,0 +1,74 @@
+{
+  "name": "any-install",
+  "private": true,
+  "version": "0.0.0-semantically-released",
+  "license": "Apache-2.0",
+  "author": {
+    "name": "OpsBR Software Technology Inc.",
+    "url": "https://opsbr.com"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/opsbr/any-install.git"
+  },
+  "bin": {
+    "any-install": "dist/npm/cli/main.mjs"
+  },
+  "type": "module",
+  "dependencies": {
+    "@commander-js/extra-typings": "^12.1.0",
+    "ajv": "^8.17.1",
+    "commander": "^12.1.0",
+    "tempy": "^3.1.0",
+    "traverse": "^0.6.9",
+    "yaml": "^2.5.1"
+  },
+  "bundleDependencies": true,
+  "devDependencies": {
+    "@eslint/js": "^9.10.0",
+    "@semantic-release/exec": "^6.0.3",
+    "@types/bun": "latest",
+    "@types/eslint__js": "^8.42.3",
+    "@types/eslint-config-prettier": "^6.11.3",
+    "@types/js-yaml": "^4.0.9",
+    "@types/traverse": "^0.6.37",
+    "conventional-changelog-conventionalcommits": "^8.0.0",
+    "eslint": "^9.10.0",
+    "eslint-config-prettier": "^9.1.0",
+    "generate-license-file": "^3.5.1",
+    "husky": "^9.1.5",
+    "lint-staged": "^15.2.10",
+    "prettier": "^3.3.3",
+    "prettier-plugin-sh": "^0.14.0",
+    "semantic-release": "^24.1.0",
+    "ts-json-schema-generator": "^2.3.0",
+    "typescript": "^5.5.4",
+    "typescript-eslint": "^8.4.0"
+  },
+  "scripts": {
+    "prepare": "husky",
+    "any-install": "bun ./src/cli/main.ts",
+    "generate-json-schema": "bun ./script/generate-json-schema.ts",
+    "build-assets": "bun ./script/build-assets.ts",
+    "build-cli": "bun build ./src/cli/main.ts --outfile ./dist/npm/cli/main.mjs --target node --packages external",
+    "prepack": "bun build-cli",
+    "build-toolset": "bun ./script/build-toolset.ts"
+  },
+  "files": [
+    "./LICENSE",
+    "./NOTICE",
+    "./THIRD_PARTY_LICENSES",
+    "./dist/npm"
+  ],
+  "lint-staged": {
+    "src/**/*.ts": [
+      "prettier --write",
+      "eslint --fix"
+    ],
+    "**/*.sh": [
+      "prettier --write",
+      "shellcheck"
+    ],
+    "!(src/**/*.ts|**/*.sh)": "prettier --write --ignore-unknown"
+  }
+}

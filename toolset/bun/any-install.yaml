@@ -1,0 +1,44 @@
+# yaml-language-server: $schema=../../src/cli/schema.json
+
+sh:
+  file: install.sh
+  install:
+    - statement: setInstallDir
+      with:
+        env: BUN_INSTALL
+        defaultValue: ${ANY_INSTALL_ROOT}/.bun
+    - statement: setOs
+    - statement: setArch
+    - statement: switchCases
+      with:
+        target: ${os}-${arch}
+        cases:
+          linux-x64:
+            - statement: download
+              with:
+                url: https://github.com/oven-sh/bun/releases/latest/download/bun-linux-x64.zip
+          macos-arm64:
+            - statement: download
+              with:
+                url: https://github.com/oven-sh/bun/releases/latest/download/bun-darwin-aarch64.zip
+    - statement: installDirectory
+      with:
+        options:
+          stripComponents: 1
+    - cd "${install_dir}" && ln -sf ./bun ./bunx
+
+ps1:
+  file: install.ps1
+  install:
+    - statement: setInstallDir
+      with:
+        env: BUN_INSTALL
+        defaultValue: ${Env:ANY_INSTALL_ROOT}/.bun
+    - statement: download
+      with:
+        url: https://github.com/oven-sh/bun/releases/latest/download/bun-windows-x64.zip
+    - statement: installDirectory
+      with:
+        options:
+          stripComponents: 1
+    - cd "${install_dir}" && cp ./bun.exe ./bunx.exe && cd -

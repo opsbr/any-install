@@ -1,0 +1,44 @@
+on:
+  workflow_dispatch:
+  pull_request:
+    branches:
+      - main
+
+name: test
+
+jobs:
+  test-linux:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Setup
+        run: ./script/setup.bash bun pwsh
+      - name: Test
+        run: |
+          bun install --frozen-lockfile
+          bun test
+
+  test-macos:
+    runs-on: macos-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Setup
+        run: ./script/setup.bash bun pwsh
+      - name: Test
+        run: |
+          bun install --frozen-lockfile
+          bun test
+
+  test-windows:
+    runs-on: windows-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Setup
+        run: ./script/setup.ps1 bun
+      - name: Test
+        run: |
+          bun install --frozen-lockfile
+          bun test
