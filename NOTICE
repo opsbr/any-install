@@ -2,4 +2,7 @@ Any Install
 Copyright 2024 OpsBR Software Technology Inc. and contributors
 SPDX-License-Identifier: Apache-2.0
 
+The executable file is built with Bun that is MIT-licensed.
+Bun's license information including its liked libraries can be found at https://bun.sh/docs/project/licensing
+
 Third party attributions of this package can be found in the THIRD_PARTY_LICENSES file
