@@ -50,7 +50,7 @@ export const buildCommand = (program: Command) => {
       const { sh, ps1 } = build(manifest);
       if (sh) writeScript(outDir, sh);
       if (ps1) writeScript(outDir, ps1);
-      if (testSh) testRun(outDir, { sh });
-      if (testPs1) testRun(outDir, { ps1 });
+      if (testSh) await testRun(outDir, { sh });
+      if (testPs1) await testRun(outDir, { ps1 });
     });
 };
