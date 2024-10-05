@@ -28,9 +28,10 @@
     "@eslint/js": "^9.12.0",
     "@semantic-release/exec": "^6.0.3",
     "@types/bun": "latest",
-    "@types/eslint__js": "^8.42.3",
     "@types/eslint-config-prettier": "^6.11.3",
+    "@types/eslint__js": "^8.42.3",
     "@types/js-yaml": "^4.0.9",
+    "@types/node": "^22.7.4",
     "@types/traverse": "^0.6.37",
     "conventional-changelog-conventionalcommits": "^8.0.0",
     "eslint": "^9.12.0",
@@ -52,7 +53,11 @@
     "build-assets": "bun ./script/build-assets.ts",
     "build-cli": "bun build ./src/cli/main.ts --outfile ./dist/npm/cli/main.mjs --target node --packages external",
     "prepack": "bun build-cli",
-    "build-toolset": "bun ./script/build-toolset.ts"
+    "build-toolset": "bun ./script/build-toolset.ts",
+    "format": "prettier --check .",
+    "format:write": "prettier --write .",
+    "lint": "DEBUG=eslint:eslint eslint .",
+    "lint:fix": "DEBUG=eslint:eslint eslint --fix ."
   },
   "files": [
     "./LICENSE",
