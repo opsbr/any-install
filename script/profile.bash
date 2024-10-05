@@ -8,4 +8,4 @@ done < "${root}/.any-install/path"
 
 export GH_CONFIG_DIR="${root}/.any-install/.gh/config"
 export GITHUB_TOKEN
-GITHUB_TOKEN="$(gh auth token || true)"
+GITHUB_TOKEN="$(gh auth token 2> /dev/null || true)"
