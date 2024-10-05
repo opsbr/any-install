@@ -7,9 +7,19 @@ export default {
       {
         statement: "setInstallDir",
         with: {
-          env: "TEST_ENV",
-          defaultValue: "${HOME}/.test",
+          env: "ANY_INSTALL_EXAMPLE_INSTALL",
+          defaultValue: "${HOME}/.any-install-example",
         },
+      },
+      {
+        statement: "download",
+        with: {
+          url: "https://raw.githubusercontent.com/opsbr/any-install-example/main/getting-started/example.sh",
+        },
+      },
+      {
+        statement: "installExecutable",
+        with: { target: "any-install-example" },
       },
     ],
   },
@@ -19,9 +29,19 @@ export default {
       {
         statement: "setInstallDir",
         with: {
-          env: "TEST_ENV",
-          defaultValue: "${HOME}/.test",
+          env: "ANY_INSTALL_EXAMPLE_INSTALL",
+          defaultValue: "${HOME}/.any-install-example",
         },
+      },
+      {
+        statement: "download",
+        with: {
+          url: "https://raw.githubusercontent.com/opsbr/any-install-example/main/getting-started/example.ps1",
+        },
+      },
+      {
+        statement: "installExecutable",
+        with: { target: "any-install-example.ps1" },
       },
     ],
   },
