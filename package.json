@@ -36,7 +36,7 @@
     "conventional-changelog-conventionalcommits": "^8.0.0",
     "eslint": "^9.14.0",
     "eslint-config-prettier": "^9.1.0",
-    "generate-license-file": "^3.5.1",
+    "generate-license-file": "^3.6.0",
     "husky": "^9.1.6",
     "lint-staged": "^15.2.10",
     "prettier": "^3.3.3",
