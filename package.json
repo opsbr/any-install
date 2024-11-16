@@ -25,7 +25,7 @@
   },
   "bundleDependencies": true,
   "devDependencies": {
-    "@eslint/js": "^9.14.0",
+    "@eslint/js": "^9.15.0",
     "@semantic-release/exec": "^6.0.3",
     "@types/bun": "latest",
     "@types/eslint-config-prettier": "^6.11.3",
@@ -34,7 +34,7 @@
     "@types/node": "^22.9.0",
     "@types/traverse": "^0.6.37",
     "conventional-changelog-conventionalcommits": "^8.0.0",
-    "eslint": "^9.14.0",
+    "eslint": "^9.15.0",
     "eslint-config-prettier": "^9.1.0",
     "generate-license-file": "^3.6.0",
     "husky": "^9.1.6",
@@ -44,7 +44,7 @@
     "semantic-release": "^24.2.0",
     "ts-json-schema-generator": "^2.3.0",
     "typescript": "^5.6.3",
-    "typescript-eslint": "^8.13.0"
+    "typescript-eslint": "^8.14.0"
   },
   "scripts": {
     "prepare": "husky",
