@@ -12,7 +12,7 @@ const sanitize = (s: string) =>
 
 export const runSh = async (script: string, env?: Record<string, string>) => {
   const proc = Bun.spawn(["sh", "-c", script], {
-    env,
+    env: { ...process.env, ...env },
     stdout: "pipe",
     stderr: "pipe",
   });
@@ -30,7 +30,7 @@ export const runPs1 = async (script: string, env?: Record<string, string>) => {
     const proc = Bun.spawn(
       ["pwsh", "-c", `$(${script}) 6> ${infoFile} 3> ${warnFile}`],
       {
-        env,
+        env: { ...process.env, ...env },
         stdout: "pipe",
         stderr: "pipe",
       },

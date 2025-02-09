@@ -1,7 +1,6 @@
 import { describe, expect, test } from "bun:test";
 import { existsSync, mkdirSync } from "node:fs";
 import { join } from "node:path";
-import { temporaryDirectoryTask } from "tempy";
 
 import { buildCommand } from "../../../src/cli/build/build-command";
 import { mockProgram } from "../helper";
@@ -10,6 +9,7 @@ import { mockProgram } from "../helper";
 import yaml from "../../../src/cli/init/any-install.yaml" with { type: "text" };
 import json from "../../../src/cli/init/any-install.json" with { type: "text" };
 import js from "../../../src/cli/init/any-install.js" with { type: "text" };
+import { temporaryDirectoryTaskWithChdir } from "../../helper/util.js";
 
 describe("success", () => {
   test.each([
@@ -19,8 +19,7 @@ describe("success", () => {
     ["any-install.js", js],
     ["any-install.mjs", js],
   ])("default %s", async (name, content) =>
-    temporaryDirectoryTask(async (tempDir) => {
-      process.chdir(tempDir);
+    temporaryDirectoryTaskWithChdir(async (tempDir) => {
       await Bun.write(name, content);
       const { program } = mockProgram();
       const command = buildCommand(program);
@@ -31,8 +30,7 @@ describe("success", () => {
   );
 
   test("specify manifest", async () =>
-    temporaryDirectoryTask(async (tempDir) => {
-      process.chdir(tempDir);
+    temporaryDirectoryTaskWithChdir(async (tempDir) => {
       const dir = join(tempDir, "custom");
       const file = join(dir, "custom.yaml");
       mkdirSync(dir, { recursive: true });
@@ -45,8 +43,7 @@ describe("success", () => {
     }));
 
   test("no manifest", async () =>
-    temporaryDirectoryTask(async (tempDir) => {
-      process.chdir(tempDir);
+    temporaryDirectoryTaskWithChdir(async (tempDir) => {
       const { program } = mockProgram();
       const command = buildCommand(program);
       expect(() => command.parseAsync([], { from: "user" })).toThrowError();
@@ -55,8 +52,7 @@ describe("success", () => {
     }));
 
   test("with parameter", async () =>
-    temporaryDirectoryTask(async (tempDir) => {
-      process.chdir(tempDir);
+    temporaryDirectoryTaskWithChdir(async (tempDir) => {
       const file = join(tempDir, "any-install.yaml");
       const yamlWithParameter = `
 sh:

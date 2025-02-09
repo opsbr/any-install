@@ -1,10 +1,10 @@
 import { describe, expect, test } from "bun:test";
 import { existsSync } from "node:fs";
 import { join } from "node:path";
-import { temporaryDirectoryTask } from "tempy";
 
 import { initCommand } from "../../../src/cli/init/init-command";
 import { mockProgram } from "../helper";
+import { temporaryDirectoryTaskWithChdir } from "../../helper/util";
 
 describe("success", () => {
   test.each([
@@ -13,8 +13,7 @@ describe("success", () => {
     [["-f", "json"], "any-install.json"],
     [["-f", "js"], "any-install.js"],
   ])("%p", async (argv, file) =>
-    temporaryDirectoryTask(async (tempDir) => {
-      process.chdir(tempDir);
+    temporaryDirectoryTaskWithChdir(async (tempDir) => {
       const { program } = mockProgram();
       const command = initCommand(program);
       await command.parseAsync(argv, { from: "user" });
@@ -24,8 +23,7 @@ describe("success", () => {
   );
 
   test("specify root dir", async () =>
-    temporaryDirectoryTask(async (tempDir) => {
-      process.chdir(tempDir);
+    temporaryDirectoryTaskWithChdir(async (tempDir) => {
       const rootDir = join(tempDir, "custom");
       const { program } = mockProgram();
       const command = initCommand(program);
@@ -42,8 +40,7 @@ describe("already exists", () => {
     [["-f", "js"], "any-install.js"],
     [[], "any-install.yaml"],
   ])("%p", async (argv, file) =>
-    temporaryDirectoryTask(async (tempDir) => {
-      process.chdir(tempDir);
+    temporaryDirectoryTaskWithChdir(async (tempDir) => {
       await Bun.write(join(tempDir, file), "");
       const { program } = mockProgram();
       const command = initCommand(program);
