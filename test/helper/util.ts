@@ -1,4 +1,5 @@
 import { expect } from "bun:test";
+import { temporaryDirectoryTask } from "tempy";
 import { createHash } from "node:crypto";
 import { readFileSync, readdirSync, rmSync, writeFileSync } from "node:fs";
 import type { Statement } from "../../src/core/builder";
@@ -19,3 +20,16 @@ export const sha256 = (file: string) =>
 
 export const find = (dir: string) =>
   readdirSync(dir, { recursive: true }).sort();
+
+export const temporaryDirectoryTaskWithChdir = (
+  fn: Parameters<typeof temporaryDirectoryTask>[0],
+) =>
+  temporaryDirectoryTask(async (tempDir) => {
+    const cwd = process.cwd();
+    try {
+      process.chdir(tempDir);
+      await fn(tempDir);
+    } finally {
+      process.chdir(cwd);
+    }
+  });
