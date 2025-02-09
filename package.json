@@ -18,7 +18,7 @@
   "dependencies": {
     "@commander-js/extra-typings": "^13.1.0",
     "ajv": "^8.17.1",
-    "commander": "^12.1.0",
+    "commander": "^13.1.0",
     "tempy": "^3.1.0",
     "traverse": "^0.6.11",
     "yaml": "^2.7.0"
