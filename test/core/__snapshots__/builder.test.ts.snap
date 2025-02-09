@@ -850,3 +850,75 @@ function _any_install_main {
 } # End of _any_install_main
 _any_install_main"
 `;
+
+exports[`sh  build snapshot ["\\na\\nb"] 1`] = `
+"#!/usr/bin/env sh
+# Built with Any Install v0.0.0-semantically-released
+# shellcheck shell=dash
+# shellcheck disable=SC2039
+
+set -eu
+
+main() {
+
+  a
+  b
+
+}
+
+# The following code is derived from Any Install.
+# Copyright 2024 OpsBR Software Technology Inc. and contributors
+# SPDX-License-Identifier: Apache-2.0
+
+library
+
+temp_dir="$(anyi_mktemp_d)"
+anyi_info "temp_dir=$<temp_dir}"
+trap 'anyi_rm_fr "$<temp_dir}"' EXIT
+
+main"
+`;
+
+exports[`ps1 build snapshot ["\\na\\nb"] 1`] = `
+"#!/usr/bin/env pwsh
+# Built with Any Install v0.0.0-semantically-released
+
+Set-strictmode -version latest
+
+# Wrapper function to avoid leaking of any definitions to the current shell.
+function _any_install_main {
+
+  function main {
+
+    a
+    b
+
+  }
+
+  # The following code is derived from Any Install.
+  # Copyright 2024 OpsBR Software Technology Inc. and contributors
+  # SPDX-License-Identifier: Apache-2.0
+  
+  library
+
+  try {
+    $temp_dir="$(anyi_mktemp_d)"
+    anyi_info "temp_dir=$<temp_dir}"
+
+    main
+  } catch {
+    $err = $_
+  } finally {
+    anyi_rm_fr "$<temp_dir}"
+
+    # Remove itself once it's done
+    Remove-Item Function:_any_install_main
+  }
+
+  if (Get-Variable err -ErrorAction Ignore) {
+    throw $err
+  }
+
+} # End of _any_install_main
+_any_install_main"
+`;
