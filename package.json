@@ -31,11 +31,11 @@
     "@types/eslint-config-prettier": "^6.11.3",
     "@types/eslint__js": "^8.42.3",
     "@types/js-yaml": "^4.0.9",
-    "@types/node": "^22.16.3",
+    "@types/node": "^22.16.4",
     "@types/traverse": "^0.6.37",
     "conventional-changelog-conventionalcommits": "^8.0.0",
     "eslint": "^9.31.0",
-    "eslint-config-prettier": "^10.1.5",
+    "eslint-config-prettier": "^10.1.8",
     "generate-license-file": "^3.8.1",
     "husky": "^9.1.7",
     "lint-staged": "^15.5.2",
@@ -44,7 +44,7 @@
     "semantic-release": "^24.2.7",
     "ts-json-schema-generator": "^2.4.0",
     "typescript": "^5.8.3",
-    "typescript-eslint": "^8.36.0"
+    "typescript-eslint": "^8.37.0"
   },
   "scripts": {
     "prepare": "husky",
