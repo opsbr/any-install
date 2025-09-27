@@ -25,7 +25,7 @@ jobs:
           app-id: ${{ vars.OPSBR_BOT_APP_ID }}
           private-key: ${{ secrets.OPSBR_BOT_PRIVATE_KEY }}
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
         with:
           fetch-depth: 0
       - name: Setup
