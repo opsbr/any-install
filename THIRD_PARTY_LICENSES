@@ -1013,7 +1013,7 @@ The following npm packages may be included in this product:
  - crypto-random-string@4.0.0
  - is-stream@3.0.0
  - temp-dir@3.0.0
- - tempy@3.1.0
+ - tempy@3.1.1
  - type-fest@1.4.0
  - type-fest@2.19.0
  - unique-string@3.0.0

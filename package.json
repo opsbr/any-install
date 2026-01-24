@@ -19,7 +19,7 @@
     "@commander-js/extra-typings": "^13.1.0",
     "ajv": "^8.17.1",
     "commander": "^13.1.0",
-    "tempy": "^3.1.0",
+    "tempy": "^3.1.1",
     "traverse": "^0.6.11",
     "yaml": "^2.8.2"
   },
@@ -39,12 +39,12 @@
     "generate-license-file": "^3.8.1",
     "husky": "^9.1.7",
     "lint-staged": "^15.5.2",
-    "prettier": "^3.8.0",
+    "prettier": "^3.8.1",
     "prettier-plugin-sh": "^0.18.0",
     "semantic-release": "^24.2.9",
     "ts-json-schema-generator": "^2.4.0",
     "typescript": "^5.9.3",
-    "typescript-eslint": "^8.53.0"
+    "typescript-eslint": "^8.53.1"
   },
   "scripts": {
     "prepare": "husky",
