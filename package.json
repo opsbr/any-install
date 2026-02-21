@@ -17,7 +17,7 @@
   "type": "module",
   "dependencies": {
     "@commander-js/extra-typings": "^13.1.0",
-    "ajv": "^8.17.1",
+    "ajv": "^8.18.0",
     "commander": "^13.1.0",
     "tempy": "^3.2.0",
     "traverse": "^0.6.11",
@@ -25,7 +25,7 @@
   },
   "bundleDependencies": true,
   "devDependencies": {
-    "@eslint/js": "^9.39.2",
+    "@eslint/js": "^9.39.3",
     "@semantic-release/exec": "^7.1.0",
     "@types/bun": "latest",
     "@types/eslint-config-prettier": "^6.11.3",
@@ -34,7 +34,7 @@
     "@types/node": "^22.19.11",
     "@types/traverse": "^0.6.37",
     "conventional-changelog-conventionalcommits": "^8.0.0",
-    "eslint": "^9.39.2",
+    "eslint": "^9.39.3",
     "eslint-config-prettier": "^10.1.8",
     "generate-license-file": "^3.8.1",
     "husky": "^9.1.7",
@@ -44,7 +44,7 @@
     "semantic-release": "^24.2.9",
     "ts-json-schema-generator": "^2.5.0",
     "typescript": "^5.9.3",
-    "typescript-eslint": "^8.55.0"
+    "typescript-eslint": "^8.56.0"
   },
   "scripts": {
     "prepare": "husky",
