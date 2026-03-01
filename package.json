@@ -33,7 +33,7 @@
     "@types/js-yaml": "^4.0.9",
     "@types/node": "^22.19.13",
     "@types/traverse": "^0.6.37",
-    "conventional-changelog-conventionalcommits": "^8.0.0",
+    "conventional-changelog-conventionalcommits": "^9.2.0",
     "eslint": "^9.39.3",
     "eslint-config-prettier": "^10.1.8",
     "generate-license-file": "^3.8.1",
