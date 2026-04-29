@@ -14,7 +14,7 @@ jobs:
         with:
           app-id: ${{ vars.OPSBR_BOT_APP_ID }}
           private-key: ${{ secrets.OPSBR_BOT_PRIVATE_KEY }}
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
       - name: Setup
         run: ./script/setup.bash bun
       - name: Update
