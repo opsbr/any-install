@@ -21,7 +21,7 @@
     "commander": "^13.1.0",
     "tempy": "^3.2.0",
     "traverse": "^0.6.11",
-    "yaml": "^2.8.4"
+    "yaml": "^2.9.0"
   },
   "bundleDependencies": true,
   "devDependencies": {
@@ -31,7 +31,7 @@
     "@types/eslint-config-prettier": "^6.11.3",
     "@types/eslint__js": "^8.42.3",
     "@types/js-yaml": "^4.0.9",
-    "@types/node": "^22.19.18",
+    "@types/node": "^22.19.19",
     "@types/traverse": "^0.6.37",
     "conventional-changelog-conventionalcommits": "^8.0.0",
     "eslint": "^9.39.4",
@@ -44,7 +44,7 @@
     "semantic-release": "^24.2.9",
     "ts-json-schema-generator": "^2.9.0",
     "typescript": "^5.9.3",
-    "typescript-eslint": "^8.59.2"
+    "typescript-eslint": "^8.59.3"
   },
   "scripts": {
     "prepare": "husky",
